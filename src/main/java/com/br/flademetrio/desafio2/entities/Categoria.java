@@ -24,7 +24,6 @@ public class Categoria {
     }
 
     public Categoria(Integer id, String descricao) {
-        this.id = id;
         this.descricao = descricao;
     }
 

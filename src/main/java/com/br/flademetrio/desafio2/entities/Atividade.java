@@ -3,7 +3,9 @@ package com.br.flademetrio.desafio2.entities;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_atividade")
@@ -26,13 +28,13 @@ public class Atividade {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-
+    @ManyToMany(mappedBy = "atividades")
+    private Set<Participante> participantes = new HashSet<>();
 
     public Atividade() {
     }
 
     public Atividade(Integer id, String nome, String descricao, Double preco) {
-        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
@@ -82,6 +84,23 @@ public class Atividade {
         this.categoria = categoria;
     }
 
+    public Set<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(Set<Participante> participantes) {
+        this.participantes = participantes;
+    }
+
+    public void adicionarParticipante(Participante participante) {
+        this.participantes.add(participante);
+        participante.getAtividades().add(this);
+    }
+
+    public void removerParticipante(Participante participante) {
+        this.participantes.remove(participante);
+        participante.getAtividades().remove(this);
+    }
 
 
     @Override
